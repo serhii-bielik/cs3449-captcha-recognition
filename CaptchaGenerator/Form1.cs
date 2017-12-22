@@ -126,15 +126,21 @@ namespace CaptchaGenerator
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            string[] files = Directory.GetFiles(
-                Path.Combine(Environment.CurrentDirectory, txtTrainPath.Text), "*.png", SearchOption.TopDirectoryOnly);
-            imgProc.Preprocess(files[0], Path.Combine(preprocessTrainingPath, "0"));
-            /*try
+            
+            try
             {
+                string[] files = Directory.GetFiles(
+                Path.Combine(Environment.CurrentDirectory, txtTrainPath.Text), "*.png", SearchOption.TopDirectoryOnly);
                 Parallel.For(0, files.Length,
                    i => {
-                       imgProc.Preprocess(files[i], Path.Combine(preprocessTrainingPath, i.ToString()));
+                       imgProc.Preprocess(files[i], Path.Combine(preprocessTrainingPath, Path.GetFileNameWithoutExtension(files[i])));
+                   });
+
+                files = Directory.GetFiles(
+                Path.Combine(Environment.CurrentDirectory, txtTestPath.Text), "*.png", SearchOption.TopDirectoryOnly);
+                Parallel.For(0, files.Length,
+                   i => {
+                       imgProc.Preprocess(files[i], Path.Combine(preprocessTestingPath, Path.GetFileNameWithoutExtension(files[i])));
                    });
             }
             catch (Exception ex)
@@ -142,7 +148,7 @@ namespace CaptchaGenerator
                 MessageBox.Show("Error during preprocessing. " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            }    */
+            }
 
             MessageBox.Show("Preprocess has been completed!", "Stage is done",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);

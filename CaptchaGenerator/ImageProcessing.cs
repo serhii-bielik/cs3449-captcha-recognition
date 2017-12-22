@@ -202,80 +202,35 @@ namespace CaptchaGenerator
             string basicPreprocessPath = Path.Combine(outputPath, "basic.png");
             oOutputBitmap.Save(basicPreprocessPath, ImageFormat.Png);
 
-            using (Mat gray = new Mat())
-            using (Mat canny = new Mat())
-            using (Mat hierachy = new Mat())
             using (VectorOfVectorOfPoint contours = new VectorOfVectorOfPoint())
             {
-                //CvInvoke.CvtColor(img, gray, ColorConversion.Bgr2Gray);
-                //CvInvoke.Canny(gray, canny, 0, 0);
+                Mat mainImg = new Mat(basicPreprocessPath);
+                Mat selectedAreasImg = mainImg.Clone();
 
-                Mat imgTrainingNumbers = new Mat(basicPreprocessPath);
-
-                //CvInvoke.AdaptiveThreshold(canny, contours, 10, AdaptiveThresholdType.GaussianC, ThresholdType.Binary, 10, 5);
-                Mat imgGrayscale = new Mat();
-                Mat imgBlurred = new Mat(); // declare various images
-                Mat imgThresh = new Mat();
-                Mat imgThreshCopy = new Mat();
-
-                CvInvoke.CvtColor(imgTrainingNumbers, imgGrayscale, ColorConversion.Bgr2Gray);       //convert to grayscale
-                CvInvoke.GaussianBlur(imgGrayscale, imgBlurred, new Size(5, 5), 0);                  //blur
-
-                //threshold image from grayscale to black and white
-                CvInvoke.AdaptiveThreshold(imgBlurred, imgThresh, 255.0, AdaptiveThresholdType.GaussianC, ThresholdType.BinaryInv, 11, 2);
-                CvInvoke.Imshow("imgThresh", imgThresh);                //show threshold image for reference
-                imgThreshCopy = imgThresh.Clone();              //make a copy of the thresh image, this in necessary b/c findContours modifies the image
-
-                //get external countours only
-                CvInvoke.FindContours(imgThreshCopy, contours, null, RetrType.External, ChainApproxMethod.ChainApproxSimple);
-
-                //CvInvoke.FindContours(canny, contours, hierachy, RetrType.External, ChainApproxMethod.ChainApproxSimple);
+                CvInvoke.CvtColor(mainImg, mainImg, ColorConversion.Bgr2Gray);
+                CvInvoke.GaussianBlur(mainImg, mainImg, new Size(5, 5), 0);
+                CvInvoke.AdaptiveThreshold(mainImg, mainImg, 255.0, AdaptiveThresholdType.GaussianC, ThresholdType.BinaryInv, 11, 2);                
+                CvInvoke.FindContours(mainImg, contours, null, RetrType.External, ChainApproxMethod.ChainApproxSimple);
 
                 List<Rectangle> lettersRect = new List<Rectangle>();
-                List<Mat> lettersMat = new List<Mat>();
+                List<Mat> lettersMat = new List<Mat>();                
                 for (int k = 0; k < contours.Size; ++k)
-                {                               //for each contour
+                {                               
                     if (CvInvoke.ContourArea(contours[k]) > minContourArea)
-                    {                      //if contour is big enough to consider
-                        //Rectangle minAreaRect = CvInvoke.MinAreaRect(contours[k]);
-                        Rectangle boundingRect = CvInvoke.BoundingRectangle(contours[k]); //get the bounding rect
-                                                                                          //RotatedRect box = CvInvoke.MinAreaRect(contours[k]);
-                                                                                          /*if (box.Angle < -45.0)
-                                                                                          {*/
-                                                                                          /* float tmp = box.Size.Width;
-                                                                                           box.Size.Width = box.Size.Height;
-                                                                                           box.Size.Height = tmp;
-                                                                                           box.Angle += 90.0f;*/
-                                                                                          /*}
-                                                                                          else if (box.Angle > 45.0)
-                                                                                          {
-                                                                                              float tmp = box.Size.Width;
-                                                                                              box.Size.Width = box.Size.Height;
-                                                                                              box.Size.Height = tmp;
-                                                                                              box.Angle -= 90.0f;
-                                                                                          }*/
+                    {
+                        Rectangle boundingRectangle = CvInvoke.BoundingRectangle(contours[k]);
+                        
+                        CvInvoke.Rectangle(selectedAreasImg, boundingRectangle, new MCvScalar(0.0, 0.0, 255.0), 2);
 
-
-
-                        CvInvoke.Rectangle(imgTrainingNumbers, boundingRect, new MCvScalar(0.0, 0.0, 255.0), 2);    //draw red rectangle around each contour as we ask user for input
-
-
-
-
-
-                        Mat imgROItoBeCloned = new Mat(imgThreshCopy, boundingRect);//boundingRect);        //get ROI image of current char
-                        Mat imgROI = imgROItoBeCloned.Clone();           //make a copy so we do not change the ROI area of the original image
-                        Mat imgROIResized = new Mat();
-
-                        //resize image, this is necessary for recognition and storage
-                        CvInvoke.Resize(imgROI, imgROIResized, new Size(resizedWidth, resizedHeight));
+                        Mat resizedImg = new Mat(mainImg, boundingRectangle);                        
+                        CvInvoke.Resize(resizedImg, resizedImg, new Size(resizedWidth, resizedHeight));
 
                         if (lettersRect.Count > 0)
                         {
                             int bestPos = -1;
                             for (int i = 0; i < lettersRect.Count; i++)
                             {
-                                if (lettersRect[i].Left > boundingRect.Left)
+                                if (lettersRect[i].Left > boundingRectangle.Left)
                                 {
                                     bestPos = i;
                                     break;
@@ -283,32 +238,26 @@ namespace CaptchaGenerator
                             }
                             if(bestPos != -1)
                             {
-                                lettersRect.Insert(bestPos, boundingRect);
-                                lettersMat.Insert(bestPos, imgROIResized);
+                                lettersRect.Insert(bestPos, boundingRectangle);
+                                lettersMat.Insert(bestPos, resizedImg);
                             } else
                             {
-                                lettersRect.Add(boundingRect);
-                                lettersMat.Add(imgROIResized);
+                                lettersRect.Add(boundingRectangle);
+                                lettersMat.Add(resizedImg);
                             }                            
                         }
                         else
                         {
-                            lettersRect.Add(boundingRect);
-                            lettersMat.Add(imgROIResized);
+                            lettersRect.Add(boundingRectangle);
+                            lettersMat.Add(resizedImg);
                         }
-
-                        //CvInvoke.Imshow("imgROI", imgROI);                                   //show ROI image for reference
-                        //CvInvoke.Imshow("imgROIResized", imgROIResized);                     //show resized ROI image for reference
-                        
-                        //CvInvoke.Imshow("imgTrainingNumbers", imgTrainingNumbers);           //show training numbers image, this will now have red rectangles drawn on it
-
-
                     }
                 }
                 for (int i = 0; i < lettersMat.Count; i++)
                 {
                     lettersMat[i].Save(Path.Combine(outputPath, i + ".jpg"));
                 }
+                selectedAreasImg.Save(Path.Combine(outputPath, "contours.png"));
             }
         }
 
