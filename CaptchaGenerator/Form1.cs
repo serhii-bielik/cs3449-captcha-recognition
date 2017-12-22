@@ -22,17 +22,31 @@ namespace CaptchaGenerator
 {
     public partial class Form1 : Form
     {
-        const int MIN_CONTOUR_AREA = 80;
-
-        const int RESIZED_IMAGE_WIDTH = 20;
-        const int RESIZED_IMAGE_HEIGHT = 30;
-
         ImageProcessing imgProc = new ImageProcessing();
         public Form1()
         {
             InitializeComponent();
 
             folderBrowserDialog1.SelectedPath = Environment.CurrentDirectory;
+        }
+
+        private void picCaptchaPreview_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string tmpPath = "tmp";
+                if (!Directory.Exists(tmpPath))
+                    Directory.CreateDirectory(tmpPath);
+
+                picCaptchaPreview.ImageLocation = imgProc.GenerateImages(tmpPath, 1)[0];
+                picCaptchaPreview.Load();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error during generating preview. " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void bntGenerate_Click(object sender, EventArgs e)
@@ -65,8 +79,8 @@ namespace CaptchaGenerator
 
             try
             {
-                deleteAllImages(trainingDatasetpath);
-                deleteAllImages(testingDatasetpath);
+                DeleteAllImages(trainingDatasetpath);
+                DeleteAllImages(testingDatasetpath);
             }
             catch (Exception ex)
             {
@@ -89,30 +103,57 @@ namespace CaptchaGenerator
             }
         }
 
-        private void picCaptchaPreview_Click(object sender, EventArgs e)
+        private void bntPreprocessDatasets_Click(object sender, EventArgs e)
         {
+            string preprocessTrainingPath = Environment.CurrentDirectory + "\\Preprocess\\Training";
+            string preprocessTestingPath = Environment.CurrentDirectory + "\\Preprocess\\Testing";
             try
             {
-                string tmpPath = "tmp";
-                if (!Directory.Exists(tmpPath))
-                    Directory.CreateDirectory(tmpPath);
+                if (!Directory.Exists(Environment.CurrentDirectory + "\\Preprocess"))
+                    Directory.CreateDirectory(Environment.CurrentDirectory + "\\Preprocess");
+                
+                if (!Directory.Exists(preprocessTrainingPath))
+                    Directory.CreateDirectory(preprocessTrainingPath);                
+                if (!Directory.Exists(preprocessTestingPath))
+                    Directory.CreateDirectory(preprocessTestingPath);
 
-                picCaptchaPreview.ImageLocation = imgProc.GenerateImages(tmpPath, 1)[0];
-                picCaptchaPreview.Load();
-            } catch (Exception ex)
-            {
-                MessageBox.Show("Error during generating preview. " + ex.Message, "Error", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //DeleteFilesAndFolders(preprocessTrainingPath);
+                //DeleteFilesAndFolders(preprocessTestingPath);
             }
-            
-        }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error during files structure preparation. " + ex.Message, "Error", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string[] files = Directory.GetFiles(
+                Path.Combine(Environment.CurrentDirectory, txtTrainPath.Text), "*.png", SearchOption.TopDirectoryOnly);
+            imgProc.Preprocess(files[0], Path.Combine(preprocessTrainingPath, "0"));
+            /*try
+            {
+                Parallel.For(0, files.Length,
+                   i => {
+                       imgProc.Preprocess(files[i], Path.Combine(preprocessTrainingPath, i.ToString()));
+                   });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error during preprocessing. " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }    */
+
+            MessageBox.Show("Preprocess has been completed!", "Stage is done",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }                
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             picCaptchaPreview.Image = Resources.NoImageAvailable;
             try
             {
-                deleteAllImages(Path.Combine(Environment.CurrentDirectory, "tmp"));
+                DeleteAllImages(Path.Combine(Environment.CurrentDirectory, "tmp"));
             }
             catch (Exception ex)
             {
@@ -120,11 +161,25 @@ namespace CaptchaGenerator
             }            
         }
 
-        private static void deleteAllImages(string path)
+        private void DeleteAllImages(string path)
         {
             foreach (string filePath in Directory.GetFiles(path, "*.png", SearchOption.TopDirectoryOnly))
             {
                 File.Delete(filePath);
+            }
+        }
+
+        private void DeleteFilesAndFolders(string path)
+        {
+            DirectoryInfo di = new DirectoryInfo(path);
+
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete();
+            }
+            foreach (DirectoryInfo dir in di.GetDirectories())
+            {
+                dir.Delete(true);
             }
         }
 
@@ -145,5 +200,7 @@ namespace CaptchaGenerator
                 txtTestPath.Text = folderBrowserDialog1.SelectedPath;
             }
         }
+
+        
     }
 }

@@ -298,6 +298,7 @@
             this.bntPreprocessDatasets.Text = "Preprocess Datasets";
             this.bntPreprocessDatasets.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.bntPreprocessDatasets.UseVisualStyleBackColor = true;
+            this.bntPreprocessDatasets.Click += new System.EventHandler(this.bntPreprocessDatasets_Click);
             // 
             // bntGenerateDatasets
             // 
