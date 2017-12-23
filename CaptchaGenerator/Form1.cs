@@ -23,10 +23,14 @@ namespace CaptchaGenerator
     public partial class Form1 : Form
     {
         ImageProcessing imgProc = new ImageProcessing();
+        NNManager nnMng = new NNManager();
+
+        string preprocessTrainingPath = Environment.CurrentDirectory + "\\Preprocess\\Training";
+        string preprocessTestingPath = Environment.CurrentDirectory + "\\Preprocess\\Testing";
+
         public Form1()
         {
             InitializeComponent();
-
             folderBrowserDialog1.SelectedPath = Environment.CurrentDirectory;
         }
 
@@ -104,9 +108,7 @@ namespace CaptchaGenerator
         }
 
         private void bntPreprocessDatasets_Click(object sender, EventArgs e)
-        {
-            string preprocessTrainingPath = Environment.CurrentDirectory + "\\Preprocess\\Training";
-            string preprocessTestingPath = Environment.CurrentDirectory + "\\Preprocess\\Testing";
+        {            
             try
             {
                 if (!Directory.Exists(Environment.CurrentDirectory + "\\Preprocess"))
@@ -152,7 +154,37 @@ namespace CaptchaGenerator
 
             MessageBox.Show("Preprocess has been completed!", "Stage is done",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }                
+        }
+
+        private void bntTrainNN_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(preprocessTrainingPath))
+            {
+                nnMng.TrainNN(preprocessTrainingPath);
+                MessageBox.Show("Neural network training has been completed!", "Stage is done",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Seems like no data for is ready for training yet.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }            
+        }
+
+        private void bntTestNN_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(preprocessTestingPath))
+            {
+                nnMng.TestNN(preprocessTestingPath);
+                MessageBox.Show("Neural network testing has been completed!", "Stage is done",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Seems like no data for is ready for testing yet.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -206,7 +238,5 @@ namespace CaptchaGenerator
                 txtTestPath.Text = folderBrowserDialog1.SelectedPath;
             }
         }
-
-        
     }
 }

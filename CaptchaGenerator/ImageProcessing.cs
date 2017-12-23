@@ -25,21 +25,21 @@ namespace CaptchaGenerator
         const int imageHeight = 90;
         const int imageWidth = 200;
 
-        const int resizedWidth = 20;
-        const int resizedHeight = 30;
+        const int resizedWidth = 16;
+        const int resizedHeight = 21;
 
         int[] backgroundColor = new int[] { 150, 150, 150 };
         int[] textColor = new int[] { 0, 0, 0 };
-        int[] fontSizes = new int[] { 18, 20, 22, 24, 26, 27, 28, 29, 30, 31, 32, 34 };
+        int[] fontSizes = new int[] { 18, 20, 22, 24, 26, 27, 28, 29, 30 };
 
         string[] fonts = new string[]
         {
                  "Comic Sans MS",
                  "Arial",
                  "Times New Roman",
-                 "Georgia",
-                 "Verdana",
-                 "Geneva"
+                 "Georgia",                
+                 "Geneva",
+                "Verdana",
         };
         FontStyle[] fontStyles = new FontStyle[]
         {
@@ -132,7 +132,7 @@ namespace CaptchaGenerator
                 int x = imageWidth / (charsLength + 1) * i;
                 int y = imageHeight / 2;
 
-                matrix.RotateAt(rnd.Next(-20, 20), new PointF(x, y));
+                matrix.RotateAt(rnd.Next(-10, 10), new PointF(x, y));
                 graphics.Transform = matrix;
                 
                 graphics.DrawString
@@ -190,7 +190,7 @@ namespace CaptchaGenerator
                 {
                     Color cl = oOutputBitmap.GetPixel(x, y);
                     if (cl.R > 200 || cl.B > 200 || cl.G > 200)
-                    {
+                    {                            
                         oOutputBitmap.SetPixel(x, y, Color.White);
                     }
                     else
@@ -240,7 +240,8 @@ namespace CaptchaGenerator
                             {
                                 lettersRect.Insert(bestPos, boundingRectangle);
                                 lettersMat.Insert(bestPos, resizedImg);
-                            } else
+                            }
+                            else
                             {
                                 lettersRect.Add(boundingRectangle);
                                 lettersMat.Add(resizedImg);
@@ -255,6 +256,7 @@ namespace CaptchaGenerator
                 }
                 for (int i = 0; i < lettersMat.Count; i++)
                 {
+                    CvInvoke.AdaptiveThreshold(lettersMat[i], lettersMat[i], 255.0, AdaptiveThresholdType.GaussianC, ThresholdType.BinaryInv, 59, 4);
                     lettersMat[i].Save(Path.Combine(outputPath, i + ".jpg"));
                 }
                 selectedAreasImg.Save(Path.Combine(outputPath, "contours.png"));
