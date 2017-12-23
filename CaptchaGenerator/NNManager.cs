@@ -98,7 +98,7 @@ namespace CaptchaGenerator
                 TrainingData data = new TrainingData();
                 data.ReadTrainFromFile(outputFilePath);
 
-                net.TrainOnData(data, 1000, 0, 0.005f);
+                net.TrainOnData(data, 1000, 0, 0.001f);
 
                 string outputTrainedFilePath = Path.Combine(preprocessTrainingPath, "trained.data");
 

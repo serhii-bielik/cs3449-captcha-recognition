@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -95,9 +96,14 @@ namespace CaptchaGenerator
 
             try
             {
+                Stopwatch watch = Stopwatch.StartNew();
+
                 imgProc.GenerateImages(trainingDatasetpath, trainingAmount, false);
                 imgProc.GenerateImages(testingDatasetpath, testingAmount, false);
-                MessageBox.Show("Datasets successfuly generated!", "Stage is done", 
+
+                watch.Stop();
+                int elapsedS = Convert.ToInt32(watch.ElapsedMilliseconds / 1000);
+                MessageBox.Show("Datasets successfuly generated in " + elapsedS + "s!", "Stage is done", 
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -131,6 +137,7 @@ namespace CaptchaGenerator
             
             try
             {
+                Stopwatch watch = Stopwatch.StartNew();
                 string[] files = Directory.GetFiles(
                 Path.Combine(Environment.CurrentDirectory, txtTrainPath.Text), "*.png", SearchOption.TopDirectoryOnly);
                 Parallel.For(0, files.Length,
@@ -144,24 +151,29 @@ namespace CaptchaGenerator
                    i => {
                        imgProc.Preprocess(files[i], Path.Combine(preprocessTestingPath, Path.GetFileNameWithoutExtension(files[i])));
                    });
+
+                watch.Stop();
+                int elapsedS = Convert.ToInt32(watch.ElapsedMilliseconds / 1000);
+                MessageBox.Show("Preprocess has been completed in " + elapsedS + "s!", "Stage is done",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error during preprocessing. " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            }
-
-            MessageBox.Show("Preprocess has been completed!", "Stage is done",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }            
         }
 
         private void bntTrainNN_Click(object sender, EventArgs e)
         {
             if (Directory.Exists(preprocessTrainingPath))
             {
+                Stopwatch watch = Stopwatch.StartNew();
                 nnMng.TrainNN(preprocessTrainingPath);
-                MessageBox.Show("Neural network training has been completed!", "Stage is done",
+                watch.Stop();
+                int elapsedS = Convert.ToInt32(watch.ElapsedMilliseconds / 1000);
+                MessageBox.Show("Neural network training has been completed in " + elapsedS + "s!", "Stage is done",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
@@ -175,8 +187,11 @@ namespace CaptchaGenerator
         {
             if (Directory.Exists(preprocessTestingPath))
             {
+                Stopwatch watch = Stopwatch.StartNew();
                 nnMng.TestNN(preprocessTestingPath);
-                MessageBox.Show("Neural network testing has been completed!", "Stage is done",
+                watch.Stop();
+                int elapsedS = Convert.ToInt32(watch.ElapsedMilliseconds / 1000);
+                MessageBox.Show("Neural network testing has been completed in " + elapsedS + "s!", "Stage is done",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else

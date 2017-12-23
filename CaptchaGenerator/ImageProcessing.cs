@@ -34,63 +34,62 @@ namespace CaptchaGenerator
 
         string[] fonts = new string[]
         {
-                 "Comic Sans MS",
-                 "Arial",
-                 "Times New Roman",
-                 "Georgia",                
-                 "Geneva",
-                "Verdana",
+            "Arial",
+            "Comic Sans MS", 
+            "Georgia",                
+            "Geneva",
+            "Times New Roman",
+            "Verdana",
         };
         FontStyle[] fontStyles = new FontStyle[]
         {
-                 FontStyle.Bold,
-                 FontStyle.Italic,
-                 FontStyle.Regular
+            FontStyle.Bold,
+            FontStyle.Italic,
+            FontStyle.Regular
         };
         HatchStyle[] backgroundStyles = new HatchStyle[]
         {
-                HatchStyle.BackwardDiagonal,
-                HatchStyle.Cross,
-                HatchStyle.DashedDownwardDiagonal,
-                HatchStyle.DashedHorizontal,
-                HatchStyle.DashedUpwardDiagonal,
-                HatchStyle.DashedVertical,
-                HatchStyle.DiagonalBrick,
-                HatchStyle.DiagonalCross,
-                HatchStyle.Divot,
-                HatchStyle.DottedDiamond,
-                HatchStyle.DottedGrid,
-                HatchStyle.ForwardDiagonal,
-                HatchStyle.Horizontal,
-                HatchStyle.HorizontalBrick,
-                HatchStyle.LargeCheckerBoard,
-                HatchStyle.LargeConfetti,
-                HatchStyle.LargeGrid,
-                HatchStyle.LightDownwardDiagonal,
-                HatchStyle.LightHorizontal,
-                HatchStyle.LightUpwardDiagonal,
-                HatchStyle.LightVertical,
-                HatchStyle.Max,
-                HatchStyle.Min,
-                HatchStyle.NarrowHorizontal,
-                HatchStyle.NarrowVertical,
-                HatchStyle.OutlinedDiamond,
-                HatchStyle.Plaid,
-                HatchStyle.Shingle,
-                HatchStyle.SmallCheckerBoard,
-                HatchStyle.SmallConfetti,
-                HatchStyle.SmallGrid,
-                HatchStyle.SolidDiamond,
-                HatchStyle.Sphere,
-                HatchStyle.Trellis,
-                HatchStyle.Vertical,
-                HatchStyle.Wave,
-                HatchStyle.Weave,
-                HatchStyle.WideDownwardDiagonal,
-                HatchStyle.WideUpwardDiagonal,
-                HatchStyle.ZigZag
+            HatchStyle.BackwardDiagonal,
+            HatchStyle.Cross,
+            HatchStyle.DashedDownwardDiagonal,
+            HatchStyle.DashedHorizontal,
+            HatchStyle.DashedUpwardDiagonal,
+            HatchStyle.DashedVertical,
+            HatchStyle.DiagonalBrick,
+            HatchStyle.DiagonalCross,
+            HatchStyle.Divot,
+            HatchStyle.DottedDiamond,
+            HatchStyle.DottedGrid,
+            HatchStyle.ForwardDiagonal,
+            HatchStyle.Horizontal,
+            HatchStyle.HorizontalBrick,
+            HatchStyle.LargeCheckerBoard,
+            HatchStyle.LargeConfetti,
+            HatchStyle.LargeGrid,
+            HatchStyle.LightDownwardDiagonal,
+            HatchStyle.LightHorizontal,
+            HatchStyle.LightUpwardDiagonal,
+            HatchStyle.LightVertical,
+            HatchStyle.Max,
+            HatchStyle.Min,
+            HatchStyle.NarrowHorizontal,
+            HatchStyle.NarrowVertical,
+            HatchStyle.OutlinedDiamond,
+            HatchStyle.Plaid,
+            HatchStyle.Shingle,
+            HatchStyle.SmallCheckerBoard,
+            HatchStyle.SmallConfetti,
+            HatchStyle.SmallGrid,
+            HatchStyle.SolidDiamond,
+            HatchStyle.Sphere,
+            HatchStyle.Trellis,
+            HatchStyle.Vertical,
+            HatchStyle.Wave,
+            HatchStyle.Weave,
+            HatchStyle.WideDownwardDiagonal,
+            HatchStyle.WideUpwardDiagonal,
+            HatchStyle.ZigZag
         };
-
 
         public string[] GenerateImages(string outputPath, int amount, bool isHidden = true)
         {
@@ -99,10 +98,6 @@ namespace CaptchaGenerator
                    i => {
                        outputPaths.Add(GenerateImage(outputPath, isHidden));
                    });
-            /*for (int i = 0; i < amount; i++)
-            {
-                outputPaths.Add(GenerateImage(outputPath, isHidden));
-            }*/
             return outputPaths.ToArray();
         }
 
@@ -183,24 +178,24 @@ namespace CaptchaGenerator
             if (!Directory.Exists(outputPath))
                 Directory.CreateDirectory(outputPath);
 
-            Bitmap oOutputBitmap = new Bitmap(inputPath);
-            for (int y = 0; y < oOutputBitmap.Height; y++)
+            Bitmap img = new Bitmap(inputPath);
+            for (int y = 0; y < img.Height; y++)
             {
-                for (int x = 0; x < oOutputBitmap.Width; x++)
+                for (int x = 0; x < img.Width; x++)
                 {
-                    Color cl = oOutputBitmap.GetPixel(x, y);
+                    Color cl = img.GetPixel(x, y);
                     if (cl.R > 200 || cl.B > 200 || cl.G > 200)
                     {                            
-                        oOutputBitmap.SetPixel(x, y, Color.White);
+                        img.SetPixel(x, y, Color.White);
                     }
                     else
                     {
-                        oOutputBitmap.SetPixel(x, y, Color.Black);
+                        img.SetPixel(x, y, Color.Black);
                     }
                 }
             }
             string basicPreprocessPath = Path.Combine(outputPath, "basic.png");
-            oOutputBitmap.Save(basicPreprocessPath, ImageFormat.Png);
+            img.Save(basicPreprocessPath, ImageFormat.Png);
 
             using (VectorOfVectorOfPoint contours = new VectorOfVectorOfPoint())
             {
