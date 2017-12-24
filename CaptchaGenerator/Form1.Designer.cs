@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.groupGenerate = new System.Windows.Forms.GroupBox();
             this.txtTestPath = new System.Windows.Forms.TextBox();
@@ -46,19 +48,30 @@
             this.groupTrain = new System.Windows.Forms.GroupBox();
             this.groupTest = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.labTotalSymbolsCorrect = new System.Windows.Forms.Label();
+            this.labSymbolsAccuracy = new System.Windows.Forms.Label();
+            this.labCaptchasAccuracy = new System.Windows.Forms.Label();
+            this.labTotalSymbols = new System.Windows.Forms.Label();
+            this.labTotalCaptchasCorrect = new System.Windows.Forms.Label();
+            this.labTotalCaptchas = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lnkOpenCV = new System.Windows.Forms.LinkLabel();
+            this.lnkEmgu = new System.Windows.Forms.LinkLabel();
+            this.lnkFANN = new System.Windows.Forms.LinkLabel();
+            this.lnkFANNSharp = new System.Windows.Forms.LinkLabel();
+            this.bntTestNN = new System.Windows.Forms.Button();
+            this.bntTrainNN = new System.Windows.Forms.Button();
+            this.bntPreprocessDatasets = new System.Windows.Forms.Button();
+            this.bntGenerateDatasets = new System.Windows.Forms.Button();
+            this.btnBrowseTestPath = new System.Windows.Forms.Button();
+            this.btnBrowseTrainPath = new System.Windows.Forms.Button();
+            this.picCaptchaPreview = new System.Windows.Forms.PictureBox();
             this.Original = new System.Windows.Forms.DataGridViewImageColumn();
             this.Processed = new System.Windows.Forms.DataGridViewImageColumn();
             this.Symb1 = new System.Windows.Forms.DataGridViewImageColumn();
@@ -69,13 +82,6 @@
             this.Guess = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Answer = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Status = new System.Windows.Forms.DataGridViewImageColumn();
-            this.bntTestNN = new System.Windows.Forms.Button();
-            this.bntTrainNN = new System.Windows.Forms.Button();
-            this.bntPreprocessDatasets = new System.Windows.Forms.Button();
-            this.bntGenerateDatasets = new System.Windows.Forms.Button();
-            this.btnBrowseTestPath = new System.Windows.Forms.Button();
-            this.btnBrowseTrainPath = new System.Windows.Forms.Button();
-            this.picCaptchaPreview = new System.Windows.Forms.PictureBox();
             this.groupGenerate.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTestAmount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numTrainAmount)).BeginInit();
@@ -217,7 +223,7 @@
             0});
             this.numTrainAmount.Location = new System.Drawing.Point(395, 17);
             this.numTrainAmount.Maximum = new decimal(new int[] {
-            10000,
+            50000,
             0,
             0,
             0});
@@ -230,7 +236,7 @@
             this.numTrainAmount.Size = new System.Drawing.Size(65, 21);
             this.numTrainAmount.TabIndex = 4;
             this.numTrainAmount.Value = new decimal(new int[] {
-            300,
+            5000,
             0,
             0,
             0});
@@ -254,26 +260,30 @@
             this.groupPreview.Size = new System.Drawing.Size(206, 95);
             this.groupPreview.TabIndex = 0;
             this.groupPreview.TabStop = false;
-            this.groupPreview.Text = "Step #0: Captcha Preview";
+            this.groupPreview.Text = "Step #0: Captcha Preview (Click)";
             // 
             // groupPreprocess
             // 
+            this.groupPreprocess.Controls.Add(this.lnkEmgu);
+            this.groupPreprocess.Controls.Add(this.lnkOpenCV);
             this.groupPreprocess.Controls.Add(this.bntPreprocessDatasets);
             this.groupPreprocess.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupPreprocess.Location = new System.Drawing.Point(536, 34);
+            this.groupPreprocess.Location = new System.Drawing.Point(536, 12);
             this.groupPreprocess.Name = "groupPreprocess";
-            this.groupPreprocess.Size = new System.Drawing.Size(515, 59);
+            this.groupPreprocess.Size = new System.Drawing.Size(360, 69);
             this.groupPreprocess.TabIndex = 1;
             this.groupPreprocess.TabStop = false;
             this.groupPreprocess.Text = "Step #2: Preprocessing";
             // 
             // groupTrain
             // 
+            this.groupTrain.Controls.Add(this.lnkFANNSharp);
             this.groupTrain.Controls.Add(this.bntTrainNN);
+            this.groupTrain.Controls.Add(this.lnkFANN);
             this.groupTrain.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupTrain.Location = new System.Drawing.Point(536, 99);
+            this.groupTrain.Location = new System.Drawing.Point(536, 87);
             this.groupTrain.Name = "groupTrain";
-            this.groupTrain.Size = new System.Drawing.Size(515, 59);
+            this.groupTrain.Size = new System.Drawing.Size(360, 69);
             this.groupTrain.TabIndex = 1;
             this.groupTrain.TabStop = false;
             this.groupTrain.Text = "Step #3: Neural Network Training";
@@ -284,7 +294,7 @@
             this.groupTest.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.groupTest.Location = new System.Drawing.Point(536, 164);
             this.groupTest.Name = "groupTest";
-            this.groupTest.Size = new System.Drawing.Size(515, 59);
+            this.groupTest.Size = new System.Drawing.Size(360, 59);
             this.groupTest.TabIndex = 1;
             this.groupTest.TabStop = false;
             this.groupTest.Text = "Step #4: Neural Network Testing";
@@ -292,12 +302,12 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.dataGridView1);
-            this.groupBox1.Controls.Add(this.label14);
-            this.groupBox1.Controls.Add(this.label18);
-            this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.label13);
-            this.groupBox1.Controls.Add(this.label8);
+            this.groupBox1.Controls.Add(this.labTotalSymbolsCorrect);
+            this.groupBox1.Controls.Add(this.labSymbolsAccuracy);
+            this.groupBox1.Controls.Add(this.labCaptchasAccuracy);
+            this.groupBox1.Controls.Add(this.labTotalSymbols);
+            this.groupBox1.Controls.Add(this.labTotalCaptchasCorrect);
+            this.groupBox1.Controls.Add(this.labTotalCaptchas);
             this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.label17);
@@ -307,133 +317,17 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.groupBox1.Location = new System.Drawing.Point(15, 229);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1042, 531);
+            this.groupBox1.Size = new System.Drawing.Size(889, 531);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Step #5: Results Overview";
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label7.Location = new System.Drawing.Point(300, 22);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(61, 15);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "Captchas:";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label8.Location = new System.Drawing.Point(363, 22);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(13, 16);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "-";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label9.Location = new System.Drawing.Point(300, 46);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(57, 15);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "Symbols:";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label10.Location = new System.Drawing.Point(363, 47);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(13, 16);
-            this.label10.TabIndex = 0;
-            this.label10.Text = "-";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label11.Location = new System.Drawing.Point(459, 23);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(103, 15);
-            this.label11.TabIndex = 0;
-            this.label11.Text = "Correct Captchas:";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label12.Location = new System.Drawing.Point(459, 48);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(99, 15);
-            this.label12.TabIndex = 0;
-            this.label12.Text = "Correct Symbols:";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label13.Location = new System.Drawing.Point(568, 23);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(13, 16);
-            this.label13.TabIndex = 0;
-            this.label13.Text = "-";
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label14.Location = new System.Drawing.Point(568, 48);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(13, 16);
-            this.label14.TabIndex = 0;
-            this.label14.Text = "-";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label15.Location = new System.Drawing.Point(666, 22);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(58, 15);
-            this.label15.TabIndex = 0;
-            this.label15.Text = "Accuracy:";
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label16.Location = new System.Drawing.Point(730, 22);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(13, 16);
-            this.label16.TabIndex = 0;
-            this.label16.Text = "-";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label17.Location = new System.Drawing.Point(666, 46);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(58, 15);
-            this.label17.TabIndex = 0;
-            this.label17.Text = "Accuracy:";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label18.Location = new System.Drawing.Point(730, 46);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(13, 16);
-            this.label18.TabIndex = 0;
-            this.label18.Text = "-";
-            // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeColumns = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Original,
@@ -446,86 +340,209 @@
             this.Guess,
             this.Answer,
             this.Status});
-            this.dataGridView1.Location = new System.Drawing.Point(9, 73);
+            this.dataGridView1.Location = new System.Drawing.Point(9, 58);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1027, 450);
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.RowTemplate.Height = 95;
+            this.dataGridView1.ShowCellToolTips = false;
+            this.dataGridView1.ShowEditingIcon = false;
+            this.dataGridView1.Size = new System.Drawing.Size(872, 465);
             this.dataGridView1.TabIndex = 1;
             // 
-            // Original
+            // labTotalSymbolsCorrect
             // 
-            this.Original.HeaderText = "Original";
-            this.Original.Name = "Original";
-            this.Original.ReadOnly = true;
-            this.Original.Width = 230;
+            this.labTotalSymbolsCorrect.AutoSize = true;
+            this.labTotalSymbolsCorrect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labTotalSymbolsCorrect.Location = new System.Drawing.Point(487, 39);
+            this.labTotalSymbolsCorrect.Name = "labTotalSymbolsCorrect";
+            this.labTotalSymbolsCorrect.Size = new System.Drawing.Size(13, 16);
+            this.labTotalSymbolsCorrect.TabIndex = 0;
+            this.labTotalSymbolsCorrect.Text = "-";
             // 
-            // Processed
+            // labSymbolsAccuracy
             // 
-            this.Processed.HeaderText = "Processed";
-            this.Processed.Name = "Processed";
-            this.Processed.ReadOnly = true;
-            this.Processed.Width = 230;
+            this.labSymbolsAccuracy.AutoSize = true;
+            this.labSymbolsAccuracy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labSymbolsAccuracy.Location = new System.Drawing.Point(649, 37);
+            this.labSymbolsAccuracy.Name = "labSymbolsAccuracy";
+            this.labSymbolsAccuracy.Size = new System.Drawing.Size(13, 16);
+            this.labSymbolsAccuracy.TabIndex = 0;
+            this.labSymbolsAccuracy.Text = "-";
             // 
-            // Symb1
+            // labCaptchasAccuracy
             // 
-            this.Symb1.HeaderText = "1";
-            this.Symb1.Name = "Symb1";
-            this.Symb1.ReadOnly = true;
-            this.Symb1.Width = 50;
+            this.labCaptchasAccuracy.AutoSize = true;
+            this.labCaptchasAccuracy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labCaptchasAccuracy.Location = new System.Drawing.Point(649, 13);
+            this.labCaptchasAccuracy.Name = "labCaptchasAccuracy";
+            this.labCaptchasAccuracy.Size = new System.Drawing.Size(13, 16);
+            this.labCaptchasAccuracy.TabIndex = 0;
+            this.labCaptchasAccuracy.Text = "-";
             // 
-            // Symb2
+            // labTotalSymbols
             // 
-            this.Symb2.HeaderText = "2";
-            this.Symb2.Name = "Symb2";
-            this.Symb2.ReadOnly = true;
-            this.Symb2.Width = 50;
+            this.labTotalSymbols.AutoSize = true;
+            this.labTotalSymbols.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labTotalSymbols.Location = new System.Drawing.Point(282, 38);
+            this.labTotalSymbols.Name = "labTotalSymbols";
+            this.labTotalSymbols.Size = new System.Drawing.Size(13, 16);
+            this.labTotalSymbols.TabIndex = 0;
+            this.labTotalSymbols.Text = "-";
             // 
-            // Symb3
+            // labTotalCaptchasCorrect
             // 
-            this.Symb3.HeaderText = "3";
-            this.Symb3.Name = "Symb3";
-            this.Symb3.ReadOnly = true;
-            this.Symb3.Width = 50;
+            this.labTotalCaptchasCorrect.AutoSize = true;
+            this.labTotalCaptchasCorrect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labTotalCaptchasCorrect.Location = new System.Drawing.Point(487, 14);
+            this.labTotalCaptchasCorrect.Name = "labTotalCaptchasCorrect";
+            this.labTotalCaptchasCorrect.Size = new System.Drawing.Size(13, 16);
+            this.labTotalCaptchasCorrect.TabIndex = 0;
+            this.labTotalCaptchasCorrect.Text = "-";
             // 
-            // Symb4
+            // labTotalCaptchas
             // 
-            this.Symb4.HeaderText = "4";
-            this.Symb4.Name = "Symb4";
-            this.Symb4.ReadOnly = true;
-            this.Symb4.Width = 50;
+            this.labTotalCaptchas.AutoSize = true;
+            this.labTotalCaptchas.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labTotalCaptchas.Location = new System.Drawing.Point(282, 13);
+            this.labTotalCaptchas.Name = "labTotalCaptchas";
+            this.labTotalCaptchas.Size = new System.Drawing.Size(13, 16);
+            this.labTotalCaptchas.TabIndex = 0;
+            this.labTotalCaptchas.Text = "-";
             // 
-            // Symb5
+            // label12
             // 
-            this.Symb5.HeaderText = "5";
-            this.Symb5.Name = "Symb5";
-            this.Symb5.ReadOnly = true;
-            this.Symb5.Width = 50;
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label12.Location = new System.Drawing.Point(378, 39);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(99, 15);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Correct Symbols:";
             // 
-            // Guess
+            // label11
             // 
-            this.Guess.HeaderText = "Guess";
-            this.Guess.Name = "Guess";
-            this.Guess.ReadOnly = true;
-            this.Guess.Width = 80;
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label11.Location = new System.Drawing.Point(378, 14);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(103, 15);
+            this.label11.TabIndex = 0;
+            this.label11.Text = "Correct Captchas:";
             // 
-            // Answer
+            // label17
             // 
-            this.Answer.HeaderText = "Answer";
-            this.Answer.Name = "Answer";
-            this.Answer.ReadOnly = true;
-            this.Answer.Width = 80;
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label17.Location = new System.Drawing.Point(585, 37);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(58, 15);
+            this.label17.TabIndex = 0;
+            this.label17.Text = "Accuracy:";
             // 
-            // Status
+            // label15
             // 
-            this.Status.HeaderText = "Status";
-            this.Status.Name = "Status";
-            this.Status.ReadOnly = true;
-            this.Status.Width = 50;
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label15.Location = new System.Drawing.Point(585, 13);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(58, 15);
+            this.label15.TabIndex = 0;
+            this.label15.Text = "Accuracy:";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label9.Location = new System.Drawing.Point(219, 37);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(57, 15);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "Symbols:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label7.Location = new System.Drawing.Point(219, 13);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(61, 15);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "Captchas:";
+            // 
+            // lnkOpenCV
+            // 
+            this.lnkOpenCV.AutoSize = true;
+            this.lnkOpenCV.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lnkOpenCV.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lnkOpenCV.LinkArea = new System.Windows.Forms.LinkArea(11, 17);
+            this.lnkOpenCV.LinkColor = System.Drawing.Color.CornflowerBlue;
+            this.lnkOpenCV.Location = new System.Drawing.Point(5, 50);
+            this.lnkOpenCV.Name = "lnkOpenCV";
+            this.lnkOpenCV.Size = new System.Drawing.Size(110, 17);
+            this.lnkOpenCV.TabIndex = 1;
+            this.lnkOpenCV.TabStop = true;
+            this.lnkOpenCV.Text = "Powered by OpenCV";
+            this.lnkOpenCV.UseCompatibleTextRendering = true;
+            this.lnkOpenCV.VisitedLinkColor = System.Drawing.Color.Thistle;
+            this.lnkOpenCV.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkOpenCV_LinkClicked);
+            // 
+            // lnkEmgu
+            // 
+            this.lnkEmgu.AutoSize = true;
+            this.lnkEmgu.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lnkEmgu.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lnkEmgu.LinkArea = new System.Windows.Forms.LinkArea(5, 4);
+            this.lnkEmgu.LinkColor = System.Drawing.Color.CornflowerBlue;
+            this.lnkEmgu.Location = new System.Drawing.Point(111, 50);
+            this.lnkEmgu.Name = "lnkEmgu";
+            this.lnkEmgu.Size = new System.Drawing.Size(54, 17);
+            this.lnkEmgu.TabIndex = 1;
+            this.lnkEmgu.TabStop = true;
+            this.lnkEmgu.Text = " via Emgu";
+            this.lnkEmgu.UseCompatibleTextRendering = true;
+            this.lnkEmgu.VisitedLinkColor = System.Drawing.Color.Thistle;
+            this.lnkEmgu.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkEmgu_LinkClicked);
+            // 
+            // lnkFANN
+            // 
+            this.lnkFANN.AutoSize = true;
+            this.lnkFANN.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lnkFANN.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lnkFANN.LinkArea = new System.Windows.Forms.LinkArea(11, 37);
+            this.lnkFANN.LinkColor = System.Drawing.Color.CornflowerBlue;
+            this.lnkFANN.Location = new System.Drawing.Point(4, 50);
+            this.lnkFANN.Name = "lnkFANN";
+            this.lnkFANN.Size = new System.Drawing.Size(254, 17);
+            this.lnkFANN.TabIndex = 1;
+            this.lnkFANN.TabStop = true;
+            this.lnkFANN.Text = "Powered by FANN (Fast Artificial Neural Network)";
+            this.lnkFANN.UseCompatibleTextRendering = true;
+            this.lnkFANN.VisitedLinkColor = System.Drawing.Color.Thistle;
+            this.lnkFANN.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFANN_LinkClicked);
+            // 
+            // lnkFANNSharp
+            // 
+            this.lnkFANNSharp.AutoSize = true;
+            this.lnkFANNSharp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lnkFANNSharp.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.lnkFANNSharp.LinkArea = new System.Windows.Forms.LinkArea(5, 10);
+            this.lnkFANNSharp.LinkColor = System.Drawing.Color.CornflowerBlue;
+            this.lnkFANNSharp.Location = new System.Drawing.Point(253, 50);
+            this.lnkFANNSharp.Name = "lnkFANNSharp";
+            this.lnkFANNSharp.Size = new System.Drawing.Size(94, 17);
+            this.lnkFANNSharp.TabIndex = 1;
+            this.lnkFANNSharp.TabStop = true;
+            this.lnkFANNSharp.Text = " via FANNCSharp";
+            this.lnkFANNSharp.UseCompatibleTextRendering = true;
+            this.lnkFANNSharp.VisitedLinkColor = System.Drawing.Color.Thistle;
+            this.lnkFANNSharp.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkFANNSharp_LinkClicked);
             // 
             // bntTestNN
             // 
-            this.bntTestNN.Image = global::CaptchaGenerator.Properties.Resources.database_lightning;
+            this.bntTestNN.Image = global::CaptchaGenerator.Properties.Resources.lightbulb;
             this.bntTestNN.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.bntTestNN.Location = new System.Drawing.Point(187, 21);
+            this.bntTestNN.Location = new System.Drawing.Point(90, 23);
             this.bntTestNN.Name = "bntTestNN";
             this.bntTestNN.Size = new System.Drawing.Size(200, 30);
             this.bntTestNN.TabIndex = 0;
@@ -536,9 +553,9 @@
             // 
             // bntTrainNN
             // 
-            this.bntTrainNN.Image = global::CaptchaGenerator.Properties.Resources.database_refresh;
+            this.bntTrainNN.Image = global::CaptchaGenerator.Properties.Resources.bricks;
             this.bntTrainNN.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.bntTrainNN.Location = new System.Drawing.Point(187, 21);
+            this.bntTrainNN.Location = new System.Drawing.Point(90, 17);
             this.bntTrainNN.Name = "bntTrainNN";
             this.bntTrainNN.Size = new System.Drawing.Size(200, 30);
             this.bntTrainNN.TabIndex = 0;
@@ -549,9 +566,9 @@
             // 
             // bntPreprocessDatasets
             // 
-            this.bntPreprocessDatasets.Image = global::CaptchaGenerator.Properties.Resources.picture_go;
+            this.bntPreprocessDatasets.Image = global::CaptchaGenerator.Properties.Resources.layers;
             this.bntPreprocessDatasets.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.bntPreprocessDatasets.Location = new System.Drawing.Point(187, 21);
+            this.bntPreprocessDatasets.Location = new System.Drawing.Point(90, 17);
             this.bntPreprocessDatasets.Name = "bntPreprocessDatasets";
             this.bntPreprocessDatasets.Size = new System.Drawing.Size(200, 30);
             this.bntPreprocessDatasets.TabIndex = 0;
@@ -606,11 +623,105 @@
             this.picCaptchaPreview.TabStop = false;
             this.picCaptchaPreview.Click += new System.EventHandler(this.picCaptchaPreview_Click);
             // 
+            // Original
+            // 
+            this.Original.DataPropertyName = "Original";
+            this.Original.HeaderText = "Original";
+            this.Original.MinimumWidth = 240;
+            this.Original.Name = "Original";
+            this.Original.ReadOnly = true;
+            this.Original.Width = 240;
+            // 
+            // Processed
+            // 
+            this.Processed.DataPropertyName = "Processed";
+            this.Processed.HeaderText = "Processed";
+            this.Processed.MinimumWidth = 240;
+            this.Processed.Name = "Processed";
+            this.Processed.ReadOnly = true;
+            this.Processed.Width = 240;
+            // 
+            // Symb1
+            // 
+            this.Symb1.DataPropertyName = "Symb1";
+            this.Symb1.HeaderText = "1";
+            this.Symb1.MinimumWidth = 40;
+            this.Symb1.Name = "Symb1";
+            this.Symb1.ReadOnly = true;
+            this.Symb1.Width = 40;
+            // 
+            // Symb2
+            // 
+            this.Symb2.DataPropertyName = "Symb2";
+            this.Symb2.HeaderText = "2";
+            this.Symb2.MinimumWidth = 40;
+            this.Symb2.Name = "Symb2";
+            this.Symb2.ReadOnly = true;
+            this.Symb2.Width = 40;
+            // 
+            // Symb3
+            // 
+            this.Symb3.DataPropertyName = "Symb3";
+            this.Symb3.HeaderText = "3";
+            this.Symb3.MinimumWidth = 40;
+            this.Symb3.Name = "Symb3";
+            this.Symb3.ReadOnly = true;
+            this.Symb3.Width = 40;
+            // 
+            // Symb4
+            // 
+            this.Symb4.DataPropertyName = "Symb4";
+            this.Symb4.HeaderText = "4";
+            this.Symb4.MinimumWidth = 40;
+            this.Symb4.Name = "Symb4";
+            this.Symb4.ReadOnly = true;
+            this.Symb4.Width = 40;
+            // 
+            // Symb5
+            // 
+            this.Symb5.DataPropertyName = "Symb5";
+            this.Symb5.HeaderText = "5";
+            this.Symb5.MinimumWidth = 40;
+            this.Symb5.Name = "Symb5";
+            this.Symb5.ReadOnly = true;
+            this.Symb5.Width = 40;
+            // 
+            // Guess
+            // 
+            this.Guess.DataPropertyName = "Guess";
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Guess.DefaultCellStyle = dataGridViewCellStyle1;
+            this.Guess.HeaderText = "Guess";
+            this.Guess.MinimumWidth = 60;
+            this.Guess.Name = "Guess";
+            this.Guess.ReadOnly = true;
+            this.Guess.Width = 60;
+            // 
+            // Answer
+            // 
+            this.Answer.DataPropertyName = "Answer";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Answer.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Answer.HeaderText = "Answer";
+            this.Answer.MinimumWidth = 60;
+            this.Answer.Name = "Answer";
+            this.Answer.ReadOnly = true;
+            this.Answer.Width = 60;
+            // 
+            // Status
+            // 
+            this.Status.DataPropertyName = "Status";
+            this.Status.HeaderText = "Status";
+            this.Status.MinimumWidth = 50;
+            this.Status.Name = "Status";
+            this.Status.ReadOnly = true;
+            this.Status.Width = 50;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1069, 764);
+            this.ClientSize = new System.Drawing.Size(916, 764);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupTest);
             this.Controls.Add(this.groupTrain);
@@ -623,14 +734,16 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Captcha Recognition [Serhii Bielik 5748106 for CS 3449 Machine Learning]";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);            
             this.groupGenerate.ResumeLayout(false);
             this.groupGenerate.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTestAmount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numTrainAmount)).EndInit();
             this.groupPreview.ResumeLayout(false);
             this.groupPreprocess.ResumeLayout(false);
+            this.groupPreprocess.PerformLayout();
             this.groupTrain.ResumeLayout(false);
+            this.groupTrain.PerformLayout();
             this.groupTest.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -667,18 +780,22 @@
         private System.Windows.Forms.Button bntTestNN;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label labTotalSymbolsCorrect;
+        private System.Windows.Forms.Label labSymbolsAccuracy;
+        private System.Windows.Forms.Label labCaptchasAccuracy;
+        private System.Windows.Forms.Label labTotalSymbols;
+        private System.Windows.Forms.Label labTotalCaptchasCorrect;
+        private System.Windows.Forms.Label labTotalCaptchas;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.LinkLabel lnkEmgu;
+        private System.Windows.Forms.LinkLabel lnkOpenCV;
+        private System.Windows.Forms.LinkLabel lnkFANNSharp;
+        private System.Windows.Forms.LinkLabel lnkFANN;
         private System.Windows.Forms.DataGridViewImageColumn Original;
         private System.Windows.Forms.DataGridViewImageColumn Processed;
         private System.Windows.Forms.DataGridViewImageColumn Symb1;

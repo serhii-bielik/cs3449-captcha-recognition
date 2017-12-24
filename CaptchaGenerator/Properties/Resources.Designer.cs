@@ -63,9 +63,9 @@ namespace CaptchaGenerator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap d772b05d1ba5cf4f14b48883e608999f {
+        internal static System.Drawing.Bitmap accept {
             get {
-                object obj = ResourceManager.GetObject("d772b05d1ba5cf4f14b48883e608999f", resourceCulture);
+                object obj = ResourceManager.GetObject("accept", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace CaptchaGenerator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap database_lightning {
+        internal static System.Drawing.Bitmap bricks {
             get {
-                object obj = ResourceManager.GetObject("database_lightning", resourceCulture);
+                object obj = ResourceManager.GetObject("bricks", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,19 @@ namespace CaptchaGenerator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap database_refresh {
+        internal static System.Drawing.Bitmap cancel {
             get {
-                object obj = ResourceManager.GetObject("database_refresh", resourceCulture);
+                object obj = ResourceManager.GetObject("cancel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap error {
+            get {
+                object obj = ResourceManager.GetObject("error", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +113,9 @@ namespace CaptchaGenerator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap NoImageAvailable {
+        internal static System.Drawing.Bitmap help {
             get {
-                object obj = ResourceManager.GetObject("NoImageAvailable", resourceCulture);
+                object obj = ResourceManager.GetObject("help", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +123,29 @@ namespace CaptchaGenerator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap picture_go {
+        internal static System.Drawing.Bitmap layers {
             get {
-                object obj = ResourceManager.GetObject("picture_go", resourceCulture);
+                object obj = ResourceManager.GetObject("layers", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap lightbulb {
+            get {
+                object obj = ResourceManager.GetObject("lightbulb", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap NoImageAvailable {
+            get {
+                object obj = ResourceManager.GetObject("NoImageAvailable", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

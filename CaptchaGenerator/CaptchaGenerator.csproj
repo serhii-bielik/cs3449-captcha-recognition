@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CaptchaItem.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,9 +102,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="if_wizard_63170.ico" />
-    <None Include="Resources\database_lightning.png" />
-    <None Include="Resources\database_refresh.png" />
-    <None Include="Resources\picture_go.png" />
+    <None Include="Resources\layers.png" />
+    <None Include="Resources\bricks.png" />
+    <None Include="Resources\lightbulb.png" />
+    <None Include="Resources\error.png" />
+    <None Include="Resources\cancel.png" />
+    <None Include="Resources\accept.png" />
+    <None Include="Resources\help.png" />
     <None Include="Resources\NoImageAvailable.png" />
     <None Include="Resources\wand.png" />
     <None Include="Resources\folder_explore.png" />

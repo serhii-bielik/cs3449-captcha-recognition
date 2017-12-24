@@ -193,10 +193,88 @@ namespace CaptchaGenerator
                 int elapsedS = Convert.ToInt32(watch.ElapsedMilliseconds / 1000);
                 MessageBox.Show("Neural network testing has been completed in " + elapsedS + "s!", "Stage is done",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
+                LoadResults(100);
             }
             else
             {
                 MessageBox.Show("Seems like no data for is ready for testing yet.", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadResults(int amount = 50)
+        {
+            try
+            {
+                string resultsPath = Path.Combine(Environment.CurrentDirectory, "output.csv");
+                if(File.Exists(resultsPath))
+                {
+                    List<CaptchaItem> captchas = new List<CaptchaItem>();
+                    int totalCaptchas = 0;
+                    int correctCaptchas = 0;
+                    int totalSymbols = 0;                    
+                    int correctSymbols = 0;
+
+                    string[] results = File.ReadAllLines(resultsPath);
+                    totalCaptchas = results.Length;
+                    int maxElements = (amount > results.Length) ? results.Length : amount;
+
+                    for (int i = 0; i < results.Length; i++)
+                    {
+                        string[] resultsData = results[i].Split(',');
+                        string answer = resultsData[0];
+                        string guess = resultsData[1];
+
+                        string originalImagePath = Path.Combine(Environment.CurrentDirectory, "Testing", resultsData[0] + ".png");
+                        if (!File.Exists(originalImagePath))
+                            throw new Exception("Can't locate original image for " + resultsData[0] + ".png");
+                        Image originalImage = Image.FromFile(originalImagePath);
+
+                        string preprocessedPath = Path.Combine(Environment.CurrentDirectory, "Preprocess\\Testing", resultsData[0], "contours.png");
+                        if (!File.Exists(preprocessedPath))
+                            throw new Exception("Can't locate original image for contours.png");
+                        Image preprocessedImage = Image.FromFile(preprocessedPath);
+
+                        Image[] segments = new Image[5];
+                        for (int j = 0; j < segments.Length; j++)
+                        {
+                            string segmentPath = Path.Combine(Environment.CurrentDirectory, "Preprocess\\Testing", resultsData[0], j + ".jpg");
+                            if (File.Exists(segmentPath))
+                            {
+                                segments[j] = Image.FromFile(segmentPath);
+                                totalSymbols++;
+                            }                                
+                            else
+                                segments[j] = null;
+                        }
+                        if(i < maxElements)
+                            captchas.Add(new CaptchaItem(originalImage, preprocessedImage, guess, answer, segments));
+                        if (guess == answer)
+                            correctCaptchas++;
+                        for (int k = 0; k < answer.Length; k++)
+                        {
+                            if (k < guess.Length && answer[k] == guess[k])
+                                correctSymbols++;
+                        }
+                    }
+
+                    dataGridView1.DataSource = captchas;
+                    labTotalCaptchas.Text = totalCaptchas.ToString();
+                    labTotalCaptchasCorrect.Text = correctCaptchas.ToString();
+                    labCaptchasAccuracy.Text = Math.Round(100.0 * correctCaptchas / totalCaptchas, 2) + "%";
+                    labTotalSymbols.Text = totalSymbols.ToString();
+                    labTotalSymbolsCorrect.Text = correctSymbols.ToString();
+                    labSymbolsAccuracy.Text = Math.Round(100.0 * correctSymbols / totalSymbols, 2) + "%";
+                }
+                else
+                {
+                    MessageBox.Show("There is no output file yet. Have you completed all stages before this?", 
+                        "Missing data", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error during loading results to the table. " + ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -252,6 +330,37 @@ namespace CaptchaGenerator
             {
                 txtTestPath.Text = folderBrowserDialog1.SelectedPath;
             }
+        }
+
+        private void OpenLink(string url)
+        {
+            try
+            {
+                Process.Start(url);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Can't open browser. Please visit this link manually: " + url);
+            }
+        }
+        private void lnkOpenCV_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            OpenLink("https://opencv.org/");
+        }
+
+        private void lnkEmgu_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            OpenLink("http://www.emgu.com/");
+        }
+
+        private void lnkFANN_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            OpenLink("http://leenissen.dk/fann/wp/");
+        }
+
+        private void lnkFANNSharp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            OpenLink("https://github.com/joelself/FannCSharp");
         }
     }
 }

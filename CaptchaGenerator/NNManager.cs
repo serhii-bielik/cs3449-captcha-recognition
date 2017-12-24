@@ -17,7 +17,7 @@ namespace CaptchaGenerator
         internal void TestNN(string preprocessTestingPath)
         {
             StringBuilder testingOutput = new StringBuilder();
-            string outputTrainedFilePath = Path.Combine(Environment.CurrentDirectory, "Preprocess\\Training\\trained.data");
+            string outputTrainedFilePath = Path.Combine(Environment.CurrentDirectory, "Preprocess\\Training\\trained.net");
             if (File.Exists(outputTrainedFilePath))
             {
                 NeuralNet net = new NeuralNet(outputTrainedFilePath);
@@ -100,7 +100,7 @@ namespace CaptchaGenerator
 
                 net.TrainOnData(data, 1000, 0, 0.001f);
 
-                string outputTrainedFilePath = Path.Combine(preprocessTrainingPath, "trained.data");
+                string outputTrainedFilePath = Path.Combine(preprocessTrainingPath, "trained.net");
 
                 if (File.Exists(outputTrainedFilePath))
                     File.Delete(outputTrainedFilePath);
