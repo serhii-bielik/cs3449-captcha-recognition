@@ -193,6 +193,7 @@ namespace CaptchaGenerator
                 int elapsedS = Convert.ToInt32(watch.ElapsedMilliseconds / 1000);
                 MessageBox.Show("Neural network testing has been completed in " + elapsedS + "s!", "Stage is done",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
+                labCaptchasSpeed.Text = nnMng.AvgCaptchaSpeed + " ms";
                 LoadResults(100);
             }
             else

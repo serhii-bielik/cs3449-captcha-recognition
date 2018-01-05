@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FANNCSharp;
 using FANNCSharp.Double;
+using System.Diagnostics;
 
 namespace CaptchaGenerator
 {
@@ -14,8 +15,15 @@ namespace CaptchaGenerator
     {
         char[] allChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789".ToCharArray();
 
+        double avgCaptchaSpeed = 0;
+
+        public double AvgCaptchaSpeed { get => avgCaptchaSpeed; set => avgCaptchaSpeed = value; }
+
         internal void TestNN(string preprocessTestingPath)
         {
+            int capthasCount = 0;
+            long capthasTotalTime = 0;
+
             StringBuilder testingOutput = new StringBuilder();
             string outputTrainedFilePath = Path.Combine(Environment.CurrentDirectory, "Preprocess\\Training\\trained.net");
             if (File.Exists(outputTrainedFilePath))
@@ -23,8 +31,10 @@ namespace CaptchaGenerator
                 NeuralNet net = new NeuralNet(outputTrainedFilePath);
 
                 string[] testDataPathes = Directory.GetDirectories(preprocessTestingPath);
-                for (int i = 0; i < testDataPathes.Length; i++)
+                capthasCount = testDataPathes.Length;
+                for (int i = 0; i < capthasCount; i++)
                 {
+                    Stopwatch watch = Stopwatch.StartNew();
                     string[] imgs = Directory.GetFiles(testDataPathes[i], "*.jpg");
                     testingOutput.Append(Path.GetFileName(testDataPathes[i]));
                     testingOutput.Append(",");
@@ -33,7 +43,10 @@ namespace CaptchaGenerator
                         testingOutput.Append(ExtractPrediction(net.Run(getImageDataAsArray(imgs[j]))));
                     }
                     testingOutput.Append(Environment.NewLine);
+                    watch.Stop();
+                    capthasTotalTime += watch.ElapsedMilliseconds;
                 }
+                AvgCaptchaSpeed = Math.Round(Convert.ToDouble(capthasTotalTime / capthasCount), 2);
 
                 string resultsPath = Path.Combine(Environment.CurrentDirectory, "output.csv");
                 if (File.Exists(resultsPath))
@@ -98,7 +111,7 @@ namespace CaptchaGenerator
                 TrainingData data = new TrainingData();
                 data.ReadTrainFromFile(outputFilePath);
 
-                net.TrainOnData(data, 1000, 0, 0.001f);
+                net.TrainOnData(data, 1000, 0, 0.005f);
 
                 string outputTrainedFilePath = Path.Combine(preprocessTrainingPath, "trained.net");
 

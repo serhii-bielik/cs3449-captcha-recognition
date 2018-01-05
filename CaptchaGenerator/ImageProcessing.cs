@@ -143,18 +143,18 @@ namespace CaptchaGenerator
                 );
                 graphics.ResetTransform();
             }
-
+            string finalOutputPath = String.Empty;
             if (isHidden)
-                outputPath = Path.Combine(outputPath, Guid.NewGuid() + ".png");
+                finalOutputPath = Path.Combine(outputPath, Guid.NewGuid() + ".png");
             else
-                outputPath = Path.Combine(outputPath, captchaAnswer + ".png");
+                finalOutputPath = Path.Combine(outputPath, captchaAnswer + ".png");
 
             FileStream fs = null;
             try
             {              
-                if (!File.Exists(outputPath))
+                if (!File.Exists(finalOutputPath))
                 {
-                    fs = new FileStream(outputPath, FileMode.Create);
+                    fs = new FileStream(finalOutputPath, FileMode.Create);
                     outputImage.Save(fs, ImageFormat.Png);
                 } else
                 {
@@ -170,7 +170,7 @@ namespace CaptchaGenerator
                 if(fs != null)
                     fs.Close();
             }
-            return outputPath;
+            return finalOutputPath;
         }
 
         public void Preprocess(string inputPath, string outputPath)
@@ -214,7 +214,7 @@ namespace CaptchaGenerator
                     if (CvInvoke.ContourArea(contours[k]) > minContourArea)
                     {
                         Rectangle boundingRectangle = CvInvoke.BoundingRectangle(contours[k]);
-                        
+
                         CvInvoke.Rectangle(selectedAreasImg, boundingRectangle, new MCvScalar(0.0, 0.0, 255.0), 2);
 
                         Mat resizedImg = new Mat(mainImg, boundingRectangle);                        
