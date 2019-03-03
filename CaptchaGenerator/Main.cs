@@ -21,7 +21,7 @@ using System.Windows.Forms;
 
 namespace CaptchaGenerator
 {
-    public partial class Form1 : Form
+    public partial class Main : Form
     {
         ImageProcessing imgProc = new ImageProcessing();
         NNManager nnMng = new NNManager();
@@ -29,7 +29,7 @@ namespace CaptchaGenerator
         string preprocessTrainingPath = Environment.CurrentDirectory + "\\Preprocess\\Training";
         string preprocessTestingPath = Environment.CurrentDirectory + "\\Preprocess\\Testing";
 
-        public Form1()
+        public Main()
         {
             InitializeComponent();
             folderBrowserDialog1.SelectedPath = Environment.CurrentDirectory;
