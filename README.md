@@ -11,4 +11,4 @@ This done with [OpenCV](http://www.emgu.com/wiki/index.php/Main_Page) library
 3.	Training [Fast Artificial Neural Network Library](http://leenissen.dk/fann/wp/)
 4.	Testing and showing report:
 
-![Captcha Recognition](screenshots/2019-03-03_17-49-19.png?raw=true "Captcha Recognition")
+![Captcha Recognition](2019-03-03_17-49-19.png?raw=true "Captcha Recognition")
